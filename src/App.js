@@ -1,30 +1,27 @@
-import { Route, Router, Routes } from "react-router-dom"
-import "bootstrap/dist/css/bootstrap.min.css"
+import { Route, Router, Routes } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import "./app.scss"
-import BlogForm from "./components/BlogForm"
-import Navbar from "./components/Navbar"
-import ListPage from "./pages/ListPage"
-import EditPage from "./pages/EditPage"
-import HomePage from "./pages/HomePage"
+import "./app.scss";
+import routs from "./routs"
+import Navbar from "./components/Navbar";
+
 
 function App() {
-   return (
-      <>
-         <div className='nav-bar'>
-            <Navbar />
-         </div>
 
-         <div className='container'>
-            <Routes>
-               <Route path='/' element={<HomePage/>} />
-               <Route path='/blog' element={<ListPage/>} />
-               <Route path='/blog/create' element={<BlogForm />} />
-               <Route path='/blog/edit' element={<EditPage/>} />
-            </Routes>
-         </div>
-      </>
-   )
+  return (
+    <>
+      <div className="nav-bar">
+        <Navbar />
+      </div>
+      <div className="container">
+        <Routes>
+          {routs.map((item) => {
+            return <Route key={item.path} path={item.path} element={item.component} />;
+          })}
+        </Routes>
+      </div>
+    </>
+  );
 }
 
-export default App
+export default App;

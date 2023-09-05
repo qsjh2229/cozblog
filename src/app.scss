@@ -1,6 +1,9 @@
 .nav-bar{ 
    width: 1440px; margin: 0 auto;
+  
 .nav-container{ 
    width: 100%; background: tan; display: flex; flex-direction: row;
-      a{ padding: 15px 20px;  color: black; display: block; font-size: 1.2rem; font-weight: bold;}}
+      a{ padding: 15px 20px;  color: black; display: block; font-size: 1.2rem; font-weight: bold;
+      &.active{color: red;}
+      }}
 }
