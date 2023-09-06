@@ -4,6 +4,9 @@
 .nav-container{ 
    width: 100%; background: tan; display: flex; flex-direction: row;
       a{ padding: 15px 20px;  color: black; display: block; font-size: 1.2rem; font-weight: bold;
-      &.active{color: red;}
+      &.active{color: gray;}
       }}
 }
+.creat{padding: 5px 10px; height: auto; background: teal;  text-align: center; margin: 0; color: white; text-decoration: none; box-sizing: border-box; border-radius: 5px;
+&:hover{background: rgb(9, 187, 187);} }
+.cuser-potiter{cursor:  pointer;}

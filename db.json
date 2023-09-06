@@ -1,74 +1,18 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    },
-    {
-      "title": "롱",
-      "body": "ㅇ로",
-      "id": 2
-    },
-    {
-      "title": "롱",
-      "body": "ㅇ로ㅎㄴㅇ",
-      "id": 3
-    },
-    {
-      "title": "ㄹ오",
-      "body": "ㄹ오",
-      "id": 4
-    },
-    {
-      "title": "ㄹ오",
-      "body": "ㄹ오",
-      "id": 5
-    },
-    {
-      "title": "ㄹ오",
-      "body": "ㄹ오",
-      "id": 6
-    },
-    {
-      "title": "ㄹ오",
-      "body": "ㄹ오ㅎ",
-      "id": 7
-    },
-    {
-      "title": "ㄹ오",
-      "body": "ㄹ오ㅎㅗ",
-      "id": 8
-    },
-    {
-      "title": "ㄹ오ㅎㄴㅇ",
-      "body": "ㄹ오ㅎㅗㅎㄴㅇ",
-      "id": 9
-    },
-    {
-      "title": "ㄹ오ㅎㄴㅇ",
-      "body": "ㄹ오ㅎㅗㅎㄴㅇ",
-      "id": 10
-    },
-    {
-      "title": "타이틒",
-      "body": "바디",
-      "id": 11
-    },
-    {
-      "title": "타이틒",
-      "body": "바디",
-      "id": 12
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+   "posts": [
+      {
+         "title": "타치",
+         "body": "아",
+         "id": 1
+      },
+      {
+         "title": "크리에이트",
+         "body": "블로그",
+         "id": 6
+      }
+   ],
+   "comments": [],
+   "profile": {
+      "name": "typicode"
+   }
 }

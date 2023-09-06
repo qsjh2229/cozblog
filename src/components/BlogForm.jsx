@@ -1,16 +1,18 @@
 import React from 'react';
 import { useState } from "react"
 import axios from "axios"
-const BlogForm = () => {
+import { useNavigate } from 'react-router-dom';
 
+const BlogForm = () => {
+const navigate=useNavigate()
    const [title, setTitle] = useState("")
    const [body, setBody] = useState("")
 
    const onSubmit = () => {
       axios
          .post("http://localhost:3001/posts", { title, body })
-         .then((response) => {
-            console.log("게시물이 성공적으로 추가되었습니다.", response.data)
+         .then(() => {
+            navigate('/blog');
          })
          .catch((error) => {
             console.error("게시물 추가 중 오류 발생:", error)
