@@ -1,28 +1,32 @@
 {
   "posts": [
     {
-      "title": "sdg",
-      "body": "sdg",
-      "createdAt": 1694071833058,
-      "id": 9
+      "title": "ㅎㄴㅇ",
+      "body": "ㅎㄴㅇ",
+      "publish": true,
+      "createdAt": 1694093442954,
+      "id": 1
     },
     {
-      "title": "수정사항 입니다",
-      "body": "바디는 바디",
-      "createdAt": 1694074181609,
-      "id": 11
+      "title": "공개",
+      "body": "공개링",
+      "publish": false,
+      "createdAt": 1694094819963,
+      "id": 2
     },
     {
-      "title": "ㄴㅇㅎ",
-      "body": "ㄴㅇㅎ",
-      "createdAt": 1694076442337,
-      "id": 12
+      "title": "공개",
+      "body": "ㅂ;겅게",
+      "publish": true,
+      "createdAt": 1694094830770,
+      "id": 3
     },
     {
-      "title": "",
-      "body": "",
-      "createdAt": 1694077156624,
-      "id": 13
+      "title": "글 완료",
+      "body": "하이 베이비",
+      "publish": false,
+      "createdAt": 1694096884546,
+      "id": 4
     }
   ],
   "comments": [],

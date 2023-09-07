@@ -11,6 +11,7 @@ const Navbar = () => {
             Blogs
          </NavLink>
         <Link to='/blog/create'>Blog Form</Link> 
+        <Link to='/admin'>관리자</Link> 
        {/*   <NavLink activeClassName="active" to='/blog/edit' >
             Edit
          </NavLink> */}

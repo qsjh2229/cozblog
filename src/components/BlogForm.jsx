@@ -7,29 +7,54 @@ const BlogForm = (props) => {
    const navigate = useNavigate()
    const [title, setTitle] = useState("")
    const [body, setBody] = useState("")
+   const [originalTitle, setOriginalTitle] = useState("")
+   const [originalbody, setOriginalBody] = useState("")
+   const [publish, setPublish] = useState(false)
+   const [originalPublish, setOriginalPublish] = useState(false)
+   const onChangePublish=(e)=>{console.log(e.target.checked)
+      setPublish(e.target.checked)}
    const { id } = useParams()
+   const goBack =()=>{
+      if(props.editing){
+         navigate(`/blog/${id}`)
+      } else{
+         navigate(`/blog`)
+      }
+    
+   }
    useEffect(() => {
+      if(props.editing){
       axios.get(`http://localhost:3001/posts/${id}`).then(
          (res) => {
             setTitle(res.data.title)
             setBody(res.data.body)
+            setPublish(res.data.publish)
+            setOriginalTitle(res.data.title)
+            setOriginalBody(res.data.body)
+            setOriginalPublish(res.data.publish)
          },
        
       )
-   },[ id])
+   }
+   },[ props.editing, id])
+   const isEidited =()=>{
+ return title !== originalTitle || body !== originalbody || publish !==originalPublish
+   }
    const onSubmit = () => {
       if (props.editing) {
-         axios.patch(`http://localhost:3001/posts/${id}`,{title,body}).then(res=>{
+         axios.patch(`http://localhost:3001/posts/${id}`,{title,body,publish:publish}).then(res=>{
             console.log(res)
+           navigate(`/blog/${id}`)
          })
       } 
       if(!props.editing){
          axios.post("http://localhost:3001/posts", {
                title,
                body,
+               publish:publish,
                createdAt: Date.now()
             }).then(() => {
-               navigate("/blog")
+               navigate("/admin")
             }).catch((error) => {
                console.error("게시물 추가 중 오류 발생:", error)
             })
@@ -63,15 +88,22 @@ const BlogForm = (props) => {
                onChange={(event) => setBody(event.target.value)}
             />
          </div>
-         <button className='btn btn-primary' onClick={onSubmit}>
+         <div className="form-check">
+            <input type="checkbox" className="form-check-input"  checked={publish} onChange={onChangePublish}/>
+            <label htmlFor=""className="form-check-label mb-3"> publish </label>
+         </div>
+         <button className='btn btn-primary' onClick={onSubmit} disabled={ props.editing && !isEidited()}>
             {props.editing ? "Edit" : "Post"}
+         </button>
+         <button className='btn btn-danger ms-2' onClick={goBack} >
+           cancle
          </button>
       </div>
    )
 }
 
 BlogForm.propTypes = {
-   editing: PropTypes.bool,
+   editing: PropTypes.bool
 }
 
 BlogForm.defaultProps = {
