@@ -1,26 +1,44 @@
-import React from 'react';
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom"
+import PropTypes from "prop-types"
 
-const BlogForm = () => {
-const navigate=useNavigate()
+const BlogForm = (props) => {
+   const navigate = useNavigate()
    const [title, setTitle] = useState("")
    const [body, setBody] = useState("")
-
+   const { id } = useParams()
+   useEffect(() => {
+      axios.get(`http://localhost:3001/posts/${id}`).then(
+         (res) => {
+            setTitle(res.data.title)
+            setBody(res.data.body)
+         },
+       
+      )
+   },[ id])
    const onSubmit = () => {
-      axios
-         .post("http://localhost:3001/posts", { title, body })
-         .then(() => {
-            navigate('/blog');
+      if (props.editing) {
+         axios.patch(`http://localhost:3001/posts/${id}`,{title,body}).then(res=>{
+            console.log(res)
          })
-         .catch((error) => {
-            console.error("게시물 추가 중 오류 발생:", error)
-         })
+      } 
+      if(!props.editing){
+         axios.post("http://localhost:3001/posts", {
+               title,
+               body,
+               createdAt: Date.now()
+            }).then(() => {
+               navigate("/blog")
+            }).catch((error) => {
+               console.error("게시물 추가 중 오류 발생:", error)
+            })
+      }
    }
+
    return (
       <div className='container'>
-         <h1>creat a blog post</h1>
+         <h1>{props.editing ? "Edit" : "Create"} a blog post</h1>
          <div className='mb-3'>
             <label htmlFor='title' className='form-label'>
                TITLE
@@ -46,10 +64,18 @@ const navigate=useNavigate()
             />
          </div>
          <button className='btn btn-primary' onClick={onSubmit}>
-            Post
+            {props.editing ? "Edit" : "Post"}
          </button>
       </div>
-   );
-};
+   )
+}
 
-export default BlogForm;
+BlogForm.propTypes = {
+   editing: PropTypes.bool,
+}
+
+BlogForm.defaultProps = {
+   editing: false,
+}
+
+export default BlogForm

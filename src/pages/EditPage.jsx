@@ -1,9 +1,9 @@
 import React from 'react';
-
-const EditPage = () => {
+import BlogForm from '../components/BlogForm';
+const EditPage = ({editing}) => {
    return (
       <div>
-         수정
+         <BlogForm editing={true}/>
       </div>
    );
 };

@@ -26,7 +26,7 @@ if (loading){
     <LoadingSpinner/>
    )
 }
-if(postMessage.length === 0){
+if(post.length === 0){
    return( "글을 입력해 주세요")
 }
 
@@ -36,7 +36,7 @@ if(postMessage.length === 0){
          title={item.title}
          item={item}
          onClick={() => {
-            navigate(`/blog/edit`)
+            navigate(`/blog/${item.id}`)
          }}
       >
          <div>
@@ -65,8 +65,8 @@ if(postMessage.length === 0){
          <div className='d-flex justify-content-between mb-3  align-items-center'>
             <h1>BLOGS</h1>
             <Link to='/blog/create' className='creat'>
-               {" "}
-               글쓰기{" "}
+            
+               글쓰기
             </Link>
          </div>
 

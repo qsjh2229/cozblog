@@ -7,7 +7,7 @@ const routs = [
    { path: "/", component: <HomePage /> },
    { path: "/blog", component: <ListPage /> },
    { path: "/blog/create", component: <BlogForm /> },
-   { path: "/blog/edit", component: <EditPage /> },
+   { path: "/blog/:id/edit", component: <EditPage /> },
    { path: `/blog/:id`, component: <ShowPage /> },
 ]
 export default routs
