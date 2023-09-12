@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
 import PropTypes from "prop-types"
-
+import {v4 as uuidv4} from 'uuid'
+import Toast from "./Toast";
 const BlogForm = (props) => {
    const navigate = useNavigate()
    const [title, setTitle] = useState("")
@@ -13,6 +14,7 @@ const BlogForm = (props) => {
    const [originalPublish, setOriginalPublish] = useState(false)
    const [titleError, setTitleError] = useState(false)
    const [bodyError, setBodyError] = useState(false)
+   const [toasts, setToasts] = useState([]);
    const onChangePublish = (e) => {
       console.log(e.target.checked)
 
@@ -62,7 +64,23 @@ const BlogForm = (props) => {
          body !== originalbody ||
          publish !== originalPublish
       )
-   }
+   }    
+    const deleteToast=(id)=>{
+      const filterdeToasts = toasts.filter(toast =>{
+       return toast.id !==id
+      })
+      setToasts(filterdeToasts)
+      }
+    const addToast=(toast)=>{
+      const id=uuidv4()
+      const toastWithId ={
+        ...toast, id
+      }
+      setToasts(prev=>[...prev, toastWithId])
+      setTimeout(()=>{
+        deleteToast()
+      },5000)
+    }
    const onSubmit = () => {
     
       if (validateForm()) {
@@ -86,7 +104,12 @@ const BlogForm = (props) => {
                   createdAt: Date.now(),
                })
                .then(() => {
+                 
                   navigate("/admin")
+                  addToast({
+                     type:'success',
+                     text:'등록되었습니다'
+                  })
                })
                .catch((error) => {
                   console.error("게시물 추가 중 오류 발생:", error)
@@ -96,7 +119,9 @@ const BlogForm = (props) => {
    }
 
    return (
+     
       <div className='container'>
+          <Toast toasts={toasts} deleteToast={deleteToast}></Toast>
          <h1>{props.editing ? "Edit" : "Create"} a blog post</h1>
          <div className='mb-3'>
             <label htmlFor='title' className='form-label'>
