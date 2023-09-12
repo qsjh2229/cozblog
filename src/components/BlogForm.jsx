@@ -11,53 +11,87 @@ const BlogForm = (props) => {
    const [originalbody, setOriginalBody] = useState("")
    const [publish, setPublish] = useState(false)
    const [originalPublish, setOriginalPublish] = useState(false)
-   const onChangePublish=(e)=>{console.log(e.target.checked)
-      setPublish(e.target.checked)}
+   const [titleError, setTitleError] = useState(false)
+   const [bodyError, setBodyError] = useState(false)
+   const onChangePublish = (e) => {
+      console.log(e.target.checked)
+
+      setPublish(e.target.checked)
+   }
    const { id } = useParams()
-   const goBack =()=>{
-      if(props.editing){
+   const goBack = () => {
+      if (props.editing) {
          navigate(`/blog/${id}`)
-      } else{
+      } else {
          navigate(`/blog`)
       }
-    
    }
    useEffect(() => {
-      if(props.editing){
-      axios.get(`http://localhost:3001/posts/${id}`).then(
-         (res) => {
+      if (props.editing) {
+         axios.get(`http://localhost:3001/posts/${id}`).then((res) => {
             setTitle(res.data.title)
             setBody(res.data.body)
             setPublish(res.data.publish)
             setOriginalTitle(res.data.title)
             setOriginalBody(res.data.body)
             setOriginalPublish(res.data.publish)
-         },
-       
+         })
+      }
+   }, [props.editing, id])
+   const validateForm = () => {
+      let validated = true
+      if (title === "") {
+         setBodyError(  true)
+         validated = false
+      }
+      if (body === "") {
+         setTitleError ( true)
+         validated = false
+      }
+      if (title !== "") {
+         setTitleError(false); // 제목이 비어 있지 않으면 에러를 제거
+       }
+       if (body !== "") {
+         setBodyError(false); // 내용이 비어 있지 않으면 에러를 제거
+       }
+      return validated
+   }
+   const isEidited = () => {
+      return (
+         title !== originalTitle ||
+         body !== originalbody ||
+         publish !== originalPublish
       )
    }
-   },[ props.editing, id])
-   const isEidited =()=>{
- return title !== originalTitle || body !== originalbody || publish !==originalPublish
-   }
    const onSubmit = () => {
-      if (props.editing) {
-         axios.patch(`http://localhost:3001/posts/${id}`,{title,body,publish:publish}).then(res=>{
-            console.log(res)
-           navigate(`/blog/${id}`)
-         })
-      } 
-      if(!props.editing){
-         axios.post("http://localhost:3001/posts", {
-               title,
-               body,
-               publish:publish,
-               createdAt: Date.now()
-            }).then(() => {
-               navigate("/admin")
-            }).catch((error) => {
-               console.error("게시물 추가 중 오류 발생:", error)
-            })
+    
+      if (validateForm()) {
+        
+         if (props.editing) {
+            axios.patch(`http://localhost:3001/posts/${id}`, {
+                  title,
+                  body,
+                  publish: publish,
+               })
+               .then((res) => {
+                  console.log(res)
+                  navigate(`/blog/${id}`)
+               })
+         }
+         if (!props.editing) {
+            axios.post("http://localhost:3001/posts", {
+                  title,
+                  body,
+                  publish: publish,
+                  createdAt: Date.now(),
+               })
+               .then(() => {
+                  navigate("/admin")
+               })
+               .catch((error) => {
+                  console.error("게시물 추가 중 오류 발생:", error)
+               })
+         }
       }
    }
 
@@ -70,40 +104,59 @@ const BlogForm = (props) => {
             </label>
             <input
                type='text'
-               className='form-control'
+               className={`form-control  ${titleError ? "border-danger" : ""}`}
                id='title'
                value={title}
                onChange={(event) => setTitle(event.target.value)}
             />
+            {titleError && (
+               <div className='text-danger'>제목을 입력해 주세요</div>
+            )}
          </div>
+
          <div className='mb-3'>
             <label htmlFor='body' className='form-label'>
                body
             </label>
             <textarea
                rows='4'
-               className='form-control'
+               className={`form-control ${bodyError ? "border-danger" : ""}`}
                id='body'
                value={body}
                onChange={(event) => setBody(event.target.value)}
             />
+            {bodyError && (
+               <div className='text-danger'>내용을 입력해 주세요</div>
+            )}
          </div>
-         <div className="form-check">
-            <input type="checkbox" className="form-check-input"  checked={publish} onChange={onChangePublish}/>
-            <label htmlFor=""className="form-check-label mb-3"> publish </label>
+         <div className='form-check'>
+            <input
+               type='checkbox'
+               className='form-check-input'
+               checked={publish}
+               onChange={onChangePublish}
+            />
+            <label htmlFor='' className='form-check-label mb-3'>
+               {" "}
+               publish{" "}
+            </label>
          </div>
-         <button className='btn btn-primary' onClick={onSubmit} disabled={ props.editing && !isEidited()}>
+         <button
+            className='btn btn-primary'
+            onClick={onSubmit}
+            disabled={props.editing && !isEidited()}
+         >
             {props.editing ? "Edit" : "Post"}
          </button>
-         <button className='btn btn-danger ms-2' onClick={goBack} >
-           cancle
+         <button className='btn btn-danger ms-2' onClick={goBack}>
+            cancle
          </button>
       </div>
    )
 }
 
 BlogForm.propTypes = {
-   editing: PropTypes.bool
+   editing: PropTypes.bool,
 }
 
 BlogForm.defaultProps = {
